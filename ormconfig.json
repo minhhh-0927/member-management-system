@@ -1,0 +1,20 @@
+[
+  {
+    "name": "default",
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "ha.hao.minh",
+    "password": "12345678",
+    "database": "mms",
+    "entities": [
+      "dist/components/**/*.entity{.ts,.js}",
+      "src/components/**/*.entity{.ts,.js}"
+    ],
+    "migrationsTableName": "nestjs_migrations",
+    "migrations": [
+      "dist/migrations/*{.ts,.js}"
+    ],
+    "synchronize": false
+  }
+]
