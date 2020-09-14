@@ -18,7 +18,7 @@ export class UserService implements IUserService {
     }
 
     public async signUp(user: RegisterUserDto): Promise<UserDto> {
-        if (await this.usernameIsTaken(user.username)) {
+        if (await this.usernameIsTaken(user.name)) {
             throw new ConflictException('Username is already taken.');
         }
 
@@ -31,8 +31,8 @@ export class UserService implements IUserService {
         return await this.userRepository.createUser(user);
     }
 
-    private async usernameIsTaken(username: string): Promise<boolean> {
-        const user = await this.userRepository.findUserByUsername(username);
+    private async usernameIsTaken(name: string): Promise<boolean> {
+        const user = await this.userRepository.findUserByUsername(name);
 
         return user !== undefined;
     }

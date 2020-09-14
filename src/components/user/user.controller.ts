@@ -28,6 +28,6 @@ export class UserController {
   // tslint:disable-next-line:typedef no-any
    public async index(@Res() res: Response): Promise<any> {
       const data = await this.userServive.getUsers();
-      return res.render('index.njk', {username: data[0].username});
+      return res.render('index.njk', {username: data[0].name});
   }
 }

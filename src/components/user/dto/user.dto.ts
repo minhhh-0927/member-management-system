@@ -4,19 +4,26 @@ import { Exclude, Expose } from 'class-transformer';
 export class UserDto {
 
   @Expose()
-  public id: string;
+  public id: number;
 
   @Expose()
-  public username: string;
+  public name: string;
 
   @Expose()
   public email: string;
 
-  public password: string;
+  @Expose()
+  public birthday: Date;
 
   @Expose()
-  public firstName: string;
+  public team_id: number;
+  
+  @Expose()
+  public position_id: number;
 
   @Expose()
-  public lastName: string;
+  public created_at: Date;
+
+  @Expose()
+  public updated_at: Date;
 }
