@@ -4,19 +4,19 @@ import {Repository} from 'typeorm';
 
 import {IUserRepository} from '../contracts';
 import {RegisterUserDto, RetrieveUserDto, UserDto} from '../dto';
-import {User} from '../entities';
+import {Users} from '../entities';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
 
-    private userRepository: Repository<User>;
+    private userRepository: Repository<Users>;
 
-    constructor(@InjectRepository(User) userRepository: Repository<User>) {
+    constructor(@InjectRepository(Users) userRepository: Repository<Users>) {
         this.userRepository = userRepository;
     }
 
-    public async findUserByUsername(username: string): Promise<UserDto | undefined> {
-        return await this.userRepository.findOne({username: username});
+    public async findUserByUsername(name: string): Promise<UserDto | undefined> {
+        return await this.userRepository.findOne({name: name});
     }
 
     public async findUserByEmail(email: string): Promise<UserDto | undefined> {
