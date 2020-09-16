@@ -16,12 +16,6 @@ export class UserDto {
   public birthday: Date;
 
   @Expose()
-  public team_id: number;
-  
-  @Expose()
-  public position_id: number;
-
-  @Expose()
   public created_at: Date;
 
   @Expose()

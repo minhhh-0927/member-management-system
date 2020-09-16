@@ -1,6 +1,9 @@
-import { Column, Entity, Generated, PrimaryColumn, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Column, Entity, Generated, PrimaryColumn, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn, ManyToMany, JoinTable, ManyToOne } from 'typeorm';
+import { Position } from '../../position/entities/position.entity'; 
+import { Skill } from '../../skill/entities/skill.entity'; 
+import { Team } from '../../team/entities/team.entity'; 
 
-@Entity()
+@Entity({ name: 'users' })
 export class Users {
 
   @PrimaryGeneratedColumn()
@@ -32,25 +35,36 @@ export class Users {
   })
   public birthday: Date;
 
-  @Column({
-    type: "int",
-    nullable: true
-  })
-  public team_id: number;
-
-  @Column({
-    type: "int",
-    nullable: true
-  })
-  public position_id: number;
-
   @CreateDateColumn({
-    type: 'timestamp'
+    type: 'datetime'
   })
   public created_at: Date
 
   @UpdateDateColumn({
-    type: 'timestamp'
+    type: 'datetime'
   })
   public updated_at: Date
+
+  @OneToOne(type => Position)
+  @JoinColumn({name: "position_id"})
+  position_id: Position
+
+  @ManyToOne(type => Team, team => team.user)
+  @JoinColumn({name: "team_id"})
+  team_id: Team
+
+  @ManyToMany(type => Skill)
+  @JoinTable({
+    name: "user_skills",
+    joinColumn: {
+        name: "user_id",
+        referencedColumnName: "id"
+    },
+    inverseJoinColumn: {
+        name: "skill_id",
+        referencedColumnName: "id"
+    }
+  })
+  skills: Skill[]
+
 }
