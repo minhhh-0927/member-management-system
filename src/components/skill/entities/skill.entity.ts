@@ -23,12 +23,12 @@ export class Skill {
   public experience_year: number;
 
   @CreateDateColumn({
-    type: 'datetime'
+    type: 'timestamp'
   })
   public created_at: Date
 
   @UpdateDateColumn({
-    type: 'datetime'
+    type: 'timestamp'
   })
   public updated_at: Date
 }

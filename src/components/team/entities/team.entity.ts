@@ -21,12 +21,12 @@ export class Team {
   public desciption: string;
 
   @CreateDateColumn({
-    type: 'datetime'
+    type: 'timestamp'
   })
   public created_at: Date
 
   @UpdateDateColumn({
-    type: 'datetime'
+    type: 'timestamp'
   })
   public updated_at: Date
 
@@ -37,12 +37,12 @@ export class Team {
   @JoinTable({
     name: "project_teams",
     joinColumn: {
-        name: "team_id",
-        referencedColumnName: "id"
+      name: "team_id",
+      referencedColumnName: "id"
     },
     inverseJoinColumn: {
-        name: "project_id",
-        referencedColumnName: "id"
+      name: "project_id",
+      referencedColumnName: "id"
     }
   })
   projects: Project[]

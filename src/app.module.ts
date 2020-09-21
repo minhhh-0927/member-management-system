@@ -1,11 +1,12 @@
-import {Module} from '@nestjs/common';
-import {TypeOrmModule} from '@nestjs/typeorm';
-import {Connection} from 'typeorm';
-import {UserModule} from './components/user';
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Connection } from 'typeorm';
+import { typeOrmConfig } from '../typeorm.config';
+import { UserModule } from './components/user';
 
 @Module({
     imports: [
-        TypeOrmModule.forRoot(),
+        TypeOrmModule.forRoot(typeOrmConfig),
         UserModule,
     ],
     controllers: [],
