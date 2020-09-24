@@ -20,24 +20,24 @@ export class Project {
   public status: number;
 
   @Column({
-    type: "datetime",
+    type: "timestamp",
     nullable: true
   })
   public start_date: Date;
 
   @Column({
-    type: "datetime",
+    type: "timestamp",
     nullable: true
   })
   public end_date: Date;
 
   @CreateDateColumn({
-    type: 'datetime'
+    type: 'timestamp'
   })
   public created_at: Date
 
   @UpdateDateColumn({
-    type: 'datetime'
+    type: 'timestamp'
   })
   public updated_at: Date
 
@@ -45,12 +45,12 @@ export class Project {
   @JoinTable({
     name: "project_teams",
     joinColumn: {
-        name: "project_id",
-        referencedColumnName: "id"
+      name: "project_id",
+      referencedColumnName: "id"
     },
     inverseJoinColumn: {
-        name: "team_id",
-        referencedColumnName: "id"
+      name: "team_id",
+      referencedColumnName: "id"
     }
   })
   teams: Team[]

@@ -1,9 +1,11 @@
-import { Column, Entity, Generated, PrimaryColumn, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn, ManyToMany, JoinTable, ManyToOne } from 'typeorm';
-import { Position } from '../../position/entities/position.entity'; 
-import { Skill } from '../../skill/entities/skill.entity'; 
-import { Team } from '../../team/entities/team.entity'; 
+import { Exclude } from 'class-transformer';
+import { Column, Entity, Generated, PrimaryColumn, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn, ManyToMany, JoinTable, ManyToOne, Unique } from 'typeorm';
+import { Position } from '../../position/entities/position.entity';
+import { Skill } from '../../skill/entities/skill.entity';
+import { Team } from '../../team/entities/team.entity';
 
 @Entity({ name: 'users' })
+@Unique(['email'])
 export class Users {
 
   @PrimaryGeneratedColumn()
@@ -25,44 +27,45 @@ export class Users {
   @Column({
     type: "varchar",
     length: 255,
-    select: false,
+    select: true,
   })
+  @Exclude({ toPlainOnly: true })
   public password: string;
 
   @Column({
-    type: "datetime",
+    type: "timestamp",
     nullable: true
   })
   public birthday: Date;
 
   @CreateDateColumn({
-    type: 'datetime'
+    type: 'timestamp'
   })
   public created_at: Date
 
   @UpdateDateColumn({
-    type: 'datetime'
+    type: 'timestamp'
   })
   public updated_at: Date
 
   @OneToOne(type => Position)
-  @JoinColumn({name: "position_id"})
+  @JoinColumn({ name: "position_id" })
   position_id: Position
 
   @ManyToOne(type => Team, team => team.user)
-  @JoinColumn({name: "team_id"})
+  @JoinColumn({ name: "team_id" })
   team_id: Team
 
   @ManyToMany(type => Skill)
   @JoinTable({
     name: "user_skills",
     joinColumn: {
-        name: "user_id",
-        referencedColumnName: "id"
+      name: "user_id",
+      referencedColumnName: "id"
     },
     inverseJoinColumn: {
-        name: "skill_id",
-        referencedColumnName: "id"
+      name: "skill_id",
+      referencedColumnName: "id"
     }
   })
   skills: Skill[]

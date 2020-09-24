@@ -1,33 +1,45 @@
-import {Body, Controller, Get, Inject, Post, Res} from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Get, HttpCode, Inject, Post, Req, Res, UseGuards, UseInterceptors } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 
-import {Response} from 'express';
-import {USER_SERVICE} from './constants';
-import {IUserService} from './contracts';
-import {RegisterUserDto, RetrieveUserDto, UserDto} from './dto';
+import { Response } from 'express';
+import { USER_SERVICE } from './constants';
+import { IUserService } from './contracts';
+import { RegisterUserDto, RetrieveUserDto, UserDto } from './dto';
+import { AuthCredentialsDto } from './dto/auth-credentials.dto';
+import { GetUser } from './get-user.decorator';
 
 @Controller('users')
+@UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
 
-  private userServive: IUserService;
+    private userService: IUserService;
 
-  constructor(@Inject(USER_SERVICE) userServive: IUserService) {
-    this.userServive = userServive;
-  }
+    constructor(@Inject(USER_SERVICE) userService: IUserService) {
+        this.userService = userService;
+    }
 
-  @Post()
-  public async signUp(@Body() user: RegisterUserDto): Promise<UserDto> {
-    return await this.userServive.signUp(user);
-  }
+    @Post('/signup')
+    public async signUp(@Body() user: RegisterUserDto): Promise<UserDto> {
+        return await this.userService.signUp(user);
+    }
 
-  @Get()
-  public async getUsers(): Promise<Array<RetrieveUserDto>> {
-      return await this.userServive.getUsers();
-  }
+    @Post('/signin')
+    @HttpCode(200)
+    public async signIn(@Body() credentials: AuthCredentialsDto): Promise<{ user: UserDto, accessToken: string }> {
+        return await this.userService.signIn(credentials);
+    }
 
-  @Get('/index')
-  // tslint:disable-next-line:typedef no-any
-   public async index(@Res() res: Response): Promise<any> {
-      const data = await this.userServive.getUsers();
-      return res.render('index.njk', {username: data[0].name});
-  }
+    @Get('/')
+    @UseGuards(AuthGuard())
+    public async getUsers(@GetUser() user: UserDto): Promise<Array<RetrieveUserDto>> {
+        console.log(user);
+        return await this.userService.getUsers();
+    }
+
+    @Get('/index')
+    // tslint:disable-next-line:typedef no-any
+    public async index(@Res() res: Response): Promise<any> {
+        const data = await this.userService.getUsers();
+        return res.render('index.njk', { username: data[0].name });
+    }
 }

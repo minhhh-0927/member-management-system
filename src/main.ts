@@ -1,18 +1,18 @@
-import {NestExpressApplication} from '@nestjs/platform-express';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import * as nunjucks from 'nunjucks';
-import path, {join} from 'path';
+import path, { join } from 'path';
 global.ROOT_DIR = path.join(__dirname, '..');
 
-import {ValidationPipe} from '@nestjs/common';
-import {NestFactory} from '@nestjs/core';
-import {AppModule} from './app.module';
+import { ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
 
 async function bootstrap(): Promise<void> {
 
     const app = await NestFactory.create<NestExpressApplication>(
         AppModule,
     );
-    app.useGlobalPipes(new ValidationPipe({whitelist: true}));
+    app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
     app.useStaticAssets(join(__dirname, '..', 'static'));
     const environment = nunjucks.configure(
