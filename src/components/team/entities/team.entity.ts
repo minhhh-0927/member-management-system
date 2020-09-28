@@ -18,7 +18,7 @@ export class Team {
     type: "text",
     nullable: true
   })
-  public desciption: string;
+  public description: string;
 
   @CreateDateColumn({
     type: 'timestamp'
