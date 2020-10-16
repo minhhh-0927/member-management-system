@@ -17,6 +17,8 @@ ts-node ./node_modules/typeorm/cli.js migration:run
 ## Running the app
 
 ```bash
+# create file .env 
+$ cp .env.example .env
 # development
 $ yarn start
 

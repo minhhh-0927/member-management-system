@@ -18,7 +18,7 @@ export class createTeamsTable1600050043001 implements MigrationInterface {
                     type: "varchar",
                 },
                 {
-                    name: "description",
+                    name: "desciption",
                     type: "text",
                     isNullable: true
                 },
