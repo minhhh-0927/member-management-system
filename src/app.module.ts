@@ -2,15 +2,21 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
-import { typeOrmConfig } from '../typeorm.config';
-import { UserModule } from './components/user';
 import { TeamModule } from './components/team';
+import { UserModule } from './components/user';
+import { ConfigModule } from "@nestjs/config";
+import databaseConfig from "./config/database.config";
+import { DatabaseModule } from './components/database/database.module';
 
 @Module({
     imports: [
-        TypeOrmModule.forRoot(typeOrmConfig),
+        ConfigModule.forRoot({
+          isGlobal: true,
+          load: [databaseConfig],
+        }),
         UserModule,
-        TeamModule
+        TeamModule,
+        DatabaseModule,
     ],
     controllers: [],
     providers: [],
