@@ -26,8 +26,8 @@ const teamServiceProvider: ClassProvider = {
         teamRepositoryProvider, 
         teamServiceProvider
     ],
-    exports: [
-        teamServiceProvider
-    ],
+    // exports: [
+    //     teamServiceProvider
+    // ],
 })
 export class TeamModule {}

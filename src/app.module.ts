@@ -3,14 +3,16 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { typeOrmConfig } from '../typeorm.config';
-import { UserModule } from './components/user';
+import { PositionModule } from './components/position/position.module';
 import { TeamModule } from './components/team';
+import { UserModule } from './components/user';
 
 @Module({
     imports: [
         TypeOrmModule.forRoot(typeOrmConfig),
         UserModule,
-        TeamModule
+        TeamModule,
+        PositionModule,
     ],
     controllers: [],
     providers: [],
