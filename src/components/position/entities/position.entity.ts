@@ -1,4 +1,4 @@
-import { Column, Entity, Generated, PrimaryColumn, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Generated, JoinColumn, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Users } from '../../user/entities/user.entity';
 
 @Entity({ name: 'positions' })
@@ -8,18 +8,20 @@ export class Position {
   public id: number;
 
   @Column({
-    type: "varchar",
-    length: 255
+    type: 'varchar',
+    length: 255,
   })
   public name: string;
 
   @CreateDateColumn({
-    type: 'timestamp'
+    type: 'timestamp',
+    name: 'created_at',
   })
-  public created_at: Date
+  public createdAt: Date;
 
   @UpdateDateColumn({
-    type: 'timestamp'
+    type: 'timestamp',
+    name: 'updated_at',
   })
-  public updated_at: Date
+  public updatedAt: Date;
 }
