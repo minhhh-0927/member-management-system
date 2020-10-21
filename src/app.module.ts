@@ -1,14 +1,12 @@
 
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 import { Connection } from 'typeorm';
-import { typeOrmConfig } from '../typeorm.config';
+import { DatabaseModule } from './components/database/database.module';
 import { PositionModule } from './components/position/position.module';
 import { TeamModule } from './components/team';
 import { UserModule } from './components/user';
-import { ConfigModule } from "@nestjs/config";
-import databaseConfig from "./config/database.config";
-import { DatabaseModule } from './components/database/database.module';
+import databaseConfig from './config/database.config';
 
 @Module({
     imports: [

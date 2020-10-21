@@ -1,4 +1,5 @@
 import { ClassProvider, Module } from '@nestjs/common';
+import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { POSITION_REPOSITORY, POSITION_SERVICE } from './constants';
 import { Position } from './entities/position.entity';
@@ -19,6 +20,7 @@ const positionServiceProvider: ClassProvider = {
 @Module({
     imports: [
         TypeOrmModule.forFeature([Position]),
+        PassportModule.register({ defaultStrategy: 'jwt' }),
     ],
     providers: [
         positionRepositoryProvider,
