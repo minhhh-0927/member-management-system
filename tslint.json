@@ -23,6 +23,9 @@
         "method": "never",
         "constructor": "never"
       }
+    ],
+    "trailing-comma": [
+      false
     ]
   }
 }
