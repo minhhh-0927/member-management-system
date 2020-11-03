@@ -1,55 +1,50 @@
-import { Controller, Get, Inject, Post, Body, Res, Param } from '@nestjs/common';
-import {TeamService} from './team.service'
-import { RegisterTeamDto, UpdateTeamDto } from './dto'
+import { Body, Controller, Delete, Get, HttpCode, Inject, Param, Patch, Post, Res, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { Response } from 'express';
 import { TEAM_SERVICE } from './constants';
 import { ITeamService } from './contracts';
-import { Response } from 'express';
+import { RegisterTeamDto, UpdateTeamDto } from './dto';
+import { RetrieveTeamDto } from './dto/retrieve.dto';
 
 @Controller('teams')
 export class TeamController {
-    protected teamService :ITeamService;
-    constructor (@Inject(TEAM_SERVICE) teamService: ITeamService) {
-        this.teamService = teamService;
-    }
+    constructor(
+        @Inject(TEAM_SERVICE)
+        private teamService: ITeamService
+    ) { }
 
     @Get('/')
-    async findAll(@Res() res: Response): Promise<void> {
-      let teams = await this.teamService.getTeams();
-
-      return res.render('teams/index.njk', { teams: teams });
+    @HttpCode(200)
+    @UseGuards(AuthGuard())
+    public async findAll(): Promise<Array<RetrieveTeamDto>> {
+        return this.teamService.getTeams();
     }
 
-    @Get('/create')
-    async create(@Res() res: Response): Promise<void> {
-
-      return res.render('teams/create.njk');
+    @Post('/')
+    @HttpCode(201)
+    @UseGuards(AuthGuard())
+    public async create(@Body() team: RegisterTeamDto): Promise<RetrieveTeamDto | []> {
+        return this.teamService.create(team);
     }
 
-    @Post('/create')
-    async store(@Body() team: RegisterTeamDto, @Res() res: Response): Promise<void> {
-      let result = await this.teamService.create(team);
-
-      return res.redirect('/teams/');
+    @Get('/:id')
+    @HttpCode(200)
+    @UseGuards(AuthGuard())
+    public async findOne(@Param('id') id: number, @Res() res: Response): Promise<RetrieveTeamDto | []> {
+        return this.teamService.findOne(id);
     }
 
-    @Get('/:id/edit')
-    async findOne(@Param('id') id: number, @Res() res: Response): Promise<void> {
-      let team = await this.teamService.findOne(id);
-
-      return res.render('teams/edit.njk', { team: team });
+    @Patch('/:id')
+    @HttpCode(200)
+    @UseGuards(AuthGuard())
+    public async update(@Param('id') id: number, @Body() team: UpdateTeamDto): Promise<RetrieveTeamDto | []> {
+        return this.teamService.update(team, id);
     }
 
-    @Post('/:id/update')
-    async update(@Param('id') id: number, @Body() team: UpdateTeamDto, @Res() res: Response): Promise<void> {
-      let result = await this.teamService.update(team, id);
-
-      return res.redirect('/teams/');
-    }
-
-    @Get('/:id/delete')
-    async delete(@Param('id') id: number, @Res() res: Response): Promise<void> {
-      let team = await this.teamService.delete(id);
-
-      return res.redirect('/teams/');
+    @Delete('/:id')
+    @HttpCode(200)
+    @UseGuards(AuthGuard())
+    public async delete(@Param('id') id: number): Promise<boolean> {
+        return this.teamService.delete(id);
     }
 }

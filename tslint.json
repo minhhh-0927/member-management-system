@@ -26,6 +26,7 @@
     ],
     "trailing-comma": [
       false
-    ]
+    ],
+    "no-magic-numbers": [false, 1, 2, 3]
   }
 }

@@ -2,17 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
 import { ITeamRepository } from '../contracts';
-import { RetrieveTeamDto, RegisterTeamDto, UpdateTeamDto } from '../dto';
+import { RegisterTeamDto, RetrieveTeamDto, UpdateTeamDto } from '../dto';
 import { Team } from '../entities';
 
 @Injectable()
-export class TeamRepository implements ITeamRepository  {
-
+export class TeamRepository implements ITeamRepository {
     private teamRepository: Repository<Team>;
 
     constructor(@InjectRepository(Team) teamRepository: Repository<Team>) {
         this.teamRepository = teamRepository;
     }
+
     public async getTeams(): Promise<Array<RetrieveTeamDto>> {
         return await this.teamRepository.find();
     }
@@ -25,16 +25,15 @@ export class TeamRepository implements ITeamRepository  {
 
     public async findOne(id: number): Promise<RetrieveTeamDto> {
         return await this.teamRepository.findOneOrFail(id);
-    } 
+    }
 
     public async update(team: UpdateTeamDto, id: number): Promise<any> {
-
         return await this.teamRepository.update(id, team);
     }
 
     public async delete(id: number): Promise<boolean> {
         await this.teamRepository.delete(id);
 
-        return true
-    } 
+        return true;
+    }
 }
