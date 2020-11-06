@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { Connection } from 'typeorm';
 import { DatabaseModule } from './components/database/database.module';
 import { PositionModule } from './components/position/position.module';
+import { ProjectModule } from './components/project/project.module';
 import { SkillModule } from './components/skill/skill.module';
 import { TeamModule } from './components/team';
 import { UserModule } from './components/user';
@@ -20,6 +21,7 @@ import databaseConfig from './config/database.config';
         PositionModule,
         DatabaseModule,
         SkillModule,
+        ProjectModule,
     ],
     controllers: [],
     providers: [],

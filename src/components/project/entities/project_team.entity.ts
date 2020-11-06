@@ -1,28 +1,37 @@
-import { Column, Entity, Generated, PrimaryColumn, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
+} from 'typeorm';
 
 @Entity({ name: 'project_teams' })
 export class ProjectTeam {
+    @PrimaryGeneratedColumn()
+    public id: number;
 
-  @PrimaryGeneratedColumn()
-  public id: number;
+    @Column({
+        type: 'int',
+        name: 'team_id',
+    })
+    public teamId: number;
 
-  @Column({
-    type: "int",
-  })
-  public team_id: number;
+    @Column({
+        type: 'int',
+        name: 'project_id',
+    })
+    public projectId: number;
 
-  @Column({
-    type: "int",
-  })
-  public project_id: number;
+    @CreateDateColumn({
+        type: 'datetime',
+        name: 'created_at',
+    })
+    public createdAt: Date;
 
-  @CreateDateColumn({
-    type: 'datetime'
-  })
-  public created_at: Date
-
-  @UpdateDateColumn({
-    type: 'datetime'
-  })
-  public updated_at: Date
+    @UpdateDateColumn({
+        type: 'datetime',
+        name: 'updated_at',
+    })
+    public updatedAt: Date;
 }
